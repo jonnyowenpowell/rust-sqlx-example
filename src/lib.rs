@@ -28,11 +28,8 @@ impl<'a> UserManagementRepository<'a> {
 
 impl Repository for UserManagementRepository<'_> {
     async fn create(&mut self, input: CreateUserInput) -> Result<()> {
-        let query = sqlx::query!(
-            r#"
-            SELECT * FROM users
-            "#,
-        );
+        let q = format!("SELECT * FROM users WHERE name = {input.name}")
+        let query = sqlx::query!(q);
 
         let x = &mut *self.db;
         query.execute(x).await?;
