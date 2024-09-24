@@ -30,16 +30,8 @@ impl Repository for UserManagementRepository<'_> {
     async fn create(&mut self, input: CreateUserInput) -> Result<()> {
         let query = sqlx::query!(
             r#"
-            INSERT INTO users (id, name, email, confirmed, birthday, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            SELECT * FROM users
             "#,
-            input.id,
-            input.name,
-            input.email,
-            input.confirmed,
-            input.birthday,
-            input.created_at,
-            input.updated_at,
         );
 
         let x = &mut *self.db;
